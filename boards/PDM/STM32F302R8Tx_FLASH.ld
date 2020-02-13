@@ -58,11 +58,17 @@ _estack = 0x20004000;    /* end of RAM */
 _Min_Heap_Size = 0x200;      /* required amount of heap  */
 _Min_Stack_Size = 0x400; /* required amount of stack */
 
+FLASH_BASE = 0x8000000;
+FLASH_SIZE = 64K;
+FLASH_END = FLASH_BASE + FLASH_SIZE;
+USER_FLASH_SIZE = 2K; /* the end of FLASH is reserved for user-data */
+USER_FLASH_BASE = FLASH_END - USER_FLASH_SIZE;
+
 /* Specify the memory areas */
 MEMORY
 {
 RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 16K
-FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 64K
+FLASH (rx)      : ORIGIN = FLASH_BASE, LENGTH = FLASH_SIZE - USER_FLASH_SIZE
 }
 
 /* Define output sections */

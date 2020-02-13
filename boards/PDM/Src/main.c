@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
+#include <SharedProfiler.h>
 #include "main.h"
 #include "cmsis_os.h"
 
@@ -35,6 +36,7 @@
 #include "auto_generated/App_CanTx.h"
 #include "auto_generated/App_CanRx.h"
 #include "Io_Can.h"
+#include "string.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,6 +51,50 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
+void testFlash(void)
+{
+    App_SharedProfiler_Start("Flash");
+    App_SharedProfiler_Event("0");
+
+    /* 1. Unlock flash */
+    shared_assert(HAL_FLASH_Unlock() == HAL_OK);
+
+    uint32_t data = 0x12345678;
+
+    FLASH_EraseInitTypeDef config;
+    config.NbPages = 1;
+    extern uint32_t USER_FLASH_BASE;
+    uint32_t        base_addr = (uint32_t)&USER_FLASH_BASE;
+    config.PageAddress        = base_addr;
+    config.TypeErase          = FLASH_TYPEERASE_PAGES;
+
+    uint32_t errorstatus = 0;
+
+    App_SharedProfiler_Event("1");
+
+    /* 2. Flash must be erased before being programmed */
+    shared_assert(HAL_FLASHEx_Erase(&config, &errorstatus) == HAL_OK);
+    shared_assert(errorstatus == 0xFFFFFFFF);
+
+    App_SharedProfiler_Event("2");
+
+    /* 3. Program flash */
+    shared_assert(
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, base_addr, data) == HAL_OK);
+
+    App_SharedProfiler_Event("3");
+
+    /* 4. Lock flash */
+    shared_assert(HAL_FLASH_Lock() == HAL_OK);
+
+    App_SharedProfiler_Event("4");
+
+    /* 5. Copy data from flash to RAM */
+    memcpy(&data, (void *)&USER_FLASH_BASE, sizeof(data));
+
+    App_SharedProfiler_Event("5");
+    App_SharedProfiler_Stop();
+}
 
 /* USER CODE END PM */
 
@@ -558,6 +604,7 @@ void RunTask1Hz(void const *argument)
 
     for (;;)
     {
+        testFlash();
         App_StackWaterMark_Check();
         (void)SharedCmsisOs_osDelayUntilMs(&PreviousWakeTime, 1000U);
     }
