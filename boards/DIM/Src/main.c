@@ -76,6 +76,20 @@ void        RunTaskCanTx(void const *argument);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+static void CanRxQueueOverflowCallBack(size_t overflow_count)
+{
+    shared_assert(can_tx != NULL);
+
+    App_CanTx_SetPeriodicSignal_RX_OVERFLOW_COUNT(can_tx, overflow_count);
+}
+
+static void CanTxQueueOverflowCallBack(size_t overflow_count)
+{
+    shared_assert(can_tx != NULL);
+
+    App_CanTx_SetPeriodicSignal_TX_OVERFLOW_COUNT(can_tx, overflow_count);
+}
+
 /* USER CODE END 0 */
 
 /**
