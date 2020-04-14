@@ -71,11 +71,23 @@ void        RunTaskCanTx(void const *argument);
 
 /* USER CODE BEGIN PFP */
 #include "App_Milestone4Demo.h"
+#include "App_CanTx.h"
+#include "Io_CanTx.h"
+#include "Io_SharedCan.h"
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+struct DimCanTxInterface *can_tx;
+static void               CanRxQueueOverflowCallBack(size_t overflow_count)
+{
+    App_CanTx_SetPeriodicSignal_RX_OVERFLOW_COUNT(can_tx, overflow_count);
+}
 
+static void CanTxQueueOverflowCallBack(size_t overflow_count)
+{
+    App_CanTx_SetPeriodicSignal_TX_OVERFLOW_COUNT(can_tx, overflow_count);
+}
 /* USER CODE END 0 */
 
 /**
@@ -88,6 +100,9 @@ int main(void)
     SetWheelSpeed(0.0f);
     SetBatteryVoltage(0.0f);
     SetTirePressure(0.0f);
+    can_tx = App_CanTx_Create(
+        Io_CanTx_EnqueueNonPeriodicMsg_DIM_STARTUP,
+        Io_CanTx_EnqueueNonPeriodicMsg_DIM_WATCHDOG_TIMEOUT);
     /* USER CODE END 1 */
 
     /* MCU
@@ -299,7 +314,8 @@ static void MX_CAN_Init(void)
         Error_Handler();
     }
     /* USER CODE BEGIN CAN_Init 2 */
-
+    Io_SharedCan_Init(
+        &hcan, CanTxQueueOverflowCallBack, CanRxQueueOverflowCallBack);
     /* USER CODE END CAN_Init 2 */
 }
 
@@ -399,6 +415,8 @@ void RunTask100Hz(void const *argument)
     /* Infinite loop */
     for (;;)
     {
+        Io_CanTx_EnqueuePeriodicMsgs(
+            can_tx, osKernelSysTick() * portTICK_PERIOD_MS);
         SetWheelSpeed(1.0f);
         SetBatteryVoltage(2.0f);
         SetTirePressure(3.0f);
@@ -423,7 +441,7 @@ void RunTaskCanRx(void const *argument)
     /* Infinite loop */
     for (;;)
     {
-        osDelay(1);
+        osDelay(1000);
     }
     /* USER CODE END RunTaskCanRx */
 }
@@ -443,7 +461,7 @@ void RunTaskCanTx(void const *argument)
     /* Infinite loop */
     for (;;)
     {
-        osDelay(1);
+        Io_SharedCan_TransmitEnqueuedCanTxMessagesFromTask();
     }
     /* USER CODE END RunTaskCanTx */
 }

@@ -227,6 +227,7 @@ BA_ "GenMsgCycleTime" BO_ 503 10;
 BA_ "GenMsgCycleTime" BO_ 505 100;
 BA_ "GenMsgCycleTime" BO_ 506 100;
 BA_ "GenMsgCycleTime" BO_ 507 100;
+BA_ "GenMsgCycleTime" BO_ 998 100;
 
 BA_ "GenSigStartValue" SG_ 2  tx_overflow_count 0;
 BA_ "GenSigStartValue" SG_ 2  rx_overflow_count 0;
