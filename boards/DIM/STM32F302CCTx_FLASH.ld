@@ -81,7 +81,8 @@ SECTIONS
   {
     . = ALIGN(4);
     *(.tl85*)
-  }
+    . = ALIGN(4);
+  } >FLASH
 
   /* The program code and other data goes into FLASH */
   .text :

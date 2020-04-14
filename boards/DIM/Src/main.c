@@ -399,6 +399,10 @@ void RunTask100Hz(void const *argument)
     /* Infinite loop */
     for (;;)
     {
+        SetWheelSpeed(1.0f);
+        SetBatteryVoltage(2.0f);
+        SetTirePressure(3.0f);
+
         osDelay(1);
     }
     /* USER CODE END 5 */
