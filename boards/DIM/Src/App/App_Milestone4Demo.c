@@ -14,7 +14,8 @@ TL85 void SetWheelSpeed(float wheel_speed)
     {
         struct CanMsgs_fault_outputs_t payload;
         payload.motor_shutdown = true;
-        App_CanTx_SendNonPeriodicMsg_DIM_STARTUP(can_tx, &payload);
+        (void)payload;
+        //        App_CanTx_SendNonPeriodicMsg_DIM_STARTUP(can_tx, &payload);
     }
 }
 
