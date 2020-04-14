@@ -238,9 +238,9 @@ def main():
       tests = json.load(f)['Tests']
 
     with open(args.signal_json) as f:
-        mock_signal_lut = json.load(f)['Mock_Signals']
+        mock_signal_lut = json.load(f)['Mocked_Signals']
 
-    bus = can_init('socketcan', 500000, 'vcan0')
+    bus = can_init('socketcan', 500000, 'can0')
     dbc = dbc_init(args.dbc)
 
     loop = asyncio.get_event_loop()

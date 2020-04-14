@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
+#include <TL85.h>
 #include "main.h"
 #include "cmsis_os.h"
 
@@ -72,13 +73,20 @@ void        RunTaskCanTx(void const *argument);
 /* USER CODE BEGIN PFP */
 #include "App_Milestone4Demo.h"
 #include "App_CanTx.h"
+#include "App_CanRx.h"
 #include "Io_CanTx.h"
+#include "Io_CanRx.h"
 #include "Io_SharedCan.h"
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+extern struct setter      SetTirePressure_setter;
+extern struct setter      SetBatteryVoltage_setter;
+extern struct setter      SetWheelSpeed_setter;
+void                      TL85_CanCallback(uint32_t stdid, uint8_t data[8]);
 struct DimCanTxInterface *can_tx;
+struct DimCanRxInterface *can_rx;
 static void               CanRxQueueOverflowCallBack(size_t overflow_count)
 {
     App_CanTx_SetPeriodicSignal_RX_OVERFLOW_COUNT(can_tx, overflow_count);
@@ -97,12 +105,10 @@ static void CanTxQueueOverflowCallBack(size_t overflow_count)
 int main(void)
 {
     /* USER CODE BEGIN 1 */
-    SetWheelSpeed(0.0f);
-    SetBatteryVoltage(0.0f);
-    SetTirePressure(0.0f);
     can_tx = App_CanTx_Create(
         Io_CanTx_EnqueueNonPeriodicMsg_DIM_STARTUP,
         Io_CanTx_EnqueueNonPeriodicMsg_DIM_WATCHDOG_TIMEOUT);
+    can_rx = App_CanRx_Create();
     /* USER CODE END 1 */
 
     /* MCU
@@ -417,9 +423,10 @@ void RunTask100Hz(void const *argument)
     {
         Io_CanTx_EnqueuePeriodicMsgs(
             can_tx, osKernelSysTick() * portTICK_PERIOD_MS);
-        SetWheelSpeed(1.0f);
-        SetBatteryVoltage(2.0f);
-        SetTirePressure(3.0f);
+
+        // SetTirePressure_setter.normal_setter(1.0f);
+        // SetBatteryVoltage_setter.normal_setter(2.0f);
+        SetWheelSpeed_setter.normal_setter(200.0f);
 
         osDelay(1);
     }
@@ -441,7 +448,9 @@ void RunTaskCanRx(void const *argument)
     /* Infinite loop */
     for (;;)
     {
-        osDelay(1000);
+        struct CanMsg message;
+        Io_SharedCan_DequeueCanRxMessage(&message);
+        Io_CanRx_UpdateRxTableWithMessage(can_rx, &message);
     }
     /* USER CODE END RunTaskCanRx */
 }

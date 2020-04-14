@@ -6,6 +6,8 @@
 #include "App_SharedAssert.h"
 #include "Io_SharedFreeRTOS.h"
 
+void TL85_CanCallback(uint32_t stdid, uint8_t data[8]);
+
 /** @brief Size of a message in the CAN TX queue */
 #define CAN_TX_MSG_FIFO_ITEM_SIZE sizeof(struct CanMsg)
 
@@ -196,6 +198,7 @@ static inline void Io_CanRxCallback(CAN_HandleTypeDef *hcan, uint32_t rx_fifo)
     if (HAL_CAN_GetRxMessage(hcan, rx_fifo, &header, &message.data[0]) ==
         HAL_OK)
     {
+        TL85_CanCallback(header.StdId, message.data);
         // Do we care about reading this incoming message at all?
         if (Io_CanRx_FilterMessageId(header.StdId) == true)
         {

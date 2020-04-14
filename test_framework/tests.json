@@ -9,7 +9,7 @@
             "Fault_CAN_Signal_Name": "MotorShutdown",
             "Fault_Above_Threshold_(T/F)": true,
             "Fault_Active_High_(T/F)": true,
-            "Test_Name": "Dummy_Name",
+            "Test_Name": "Wheel_Speed_Overflow",
             "Mock_Signal_Name": "WheelSpeed",
             "Mock_CAN_Signal_Name": "SetWheelSpeed"
         }
