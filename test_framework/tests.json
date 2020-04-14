@@ -12,6 +12,30 @@
             "Test_Name": "Wheel_Speed_Overflow",
             "Mock_Signal_Name": "WheelSpeed",
             "Mock_CAN_Signal_Name": "SetWheelSpeed"
+        },
+        {
+            "Start_Value": 30,
+            "End_Value": 45,
+            "Step_Value": 2,
+            "Threshold_Value": 35,
+            "Fault_CAN_Signal_Name": "BatteryShutdown",
+            "Fault_Above_Threshold_(T/F)": true,
+            "Fault_Active_High_(T/F)": true,
+            "Test_Name": "OverVoltage",
+            "Mock_Signal_Name": "BatterVoltage",
+            "Mock_CAN_Signal_Name": "SetBatteryVoltage"
+        },
+        {
+            "Start_Value": 50,
+            "End_Value": 70,
+            "Step_Value": 2,
+            "Threshold_Value": 65,
+            "Fault_CAN_Signal_Name": "LowTirePressure",
+            "Fault_Above_Threshold_(T/F)": false,
+            "Fault_Active_High_(T/F)": true,
+            "Test_Name": "Low_Tire_Pressure",
+            "Mock_Signal_Name": "TirePressure",
+            "Mock_CAN_Signal_Name": "SetTirePressure"
         }
     ]
 }

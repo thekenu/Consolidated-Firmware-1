@@ -19,7 +19,6 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-#include <TL85.h>
 #include "main.h"
 #include "cmsis_os.h"
 
@@ -71,6 +70,7 @@ void        RunTaskCanRx(void const *argument);
 void        RunTaskCanTx(void const *argument);
 
 /* USER CODE BEGIN PFP */
+#include "TL85.h"
 #include "App_Milestone4Demo.h"
 #include "App_CanTx.h"
 #include "App_CanRx.h"

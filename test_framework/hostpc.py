@@ -14,6 +14,13 @@ from matplotlib.animation import FuncAnimation
 from termcolor import colored
 
 plt.style.use('fivethirtyeight')
+params = {'legend.fontsize': 'small',
+          'figure.figsize': (15, 5),
+          'axes.labelsize': 'small',
+          'axes.titlesize':'small',
+          'xtick.labelsize':'small',
+          'ytick.labelsize':'small'}
+plt.rcParams.update(params)
 
 def _get_signal_id(mock_signal_lut, signal_name):
     """
@@ -117,7 +124,7 @@ async def test_cb(bus, dbc, test, reader, mock_signal_lut, start_time):
 
     fig, axarr = plt.subplots(2, sharex=True)
     fig.tight_layout()
-    fig.set_size_inches(10,10)
+    fig.set_size_inches(8,10)
 
     # Send message for each value
     for value in range(start_value, end_value, step_value):
@@ -206,7 +213,7 @@ async def test_cb(bus, dbc, test, reader, mock_signal_lut, start_time):
         is_extended_id = False)
     bus.send(stop_message)
 
-    await asyncio.sleep(10)
+    await asyncio.sleep(20)
     
 async def run_tests(bus, tests, dbc, mock_signal_lut):
     readers = {}
