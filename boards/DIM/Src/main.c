@@ -96,7 +96,7 @@ void        RunTaskCanTx(void const *argument);
 void        StartTask1kHz(void const *argument);
 
 /* USER CODE BEGIN PFP */
-
+#include "App_Milestone4Demo.h"
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -499,6 +499,10 @@ void RunTask100Hz(void const *argument)
     /* Infinite loop */
     for (;;)
     {
+        SetWheelSpeed(1.0f);
+        SetBatteryVoltage(2.0f);
+        SetTirePressure(3.0f);
+
         osDelayUntil(&PreviousWakeTime, period_ms);
     }
     /* USER CODE END 5 */

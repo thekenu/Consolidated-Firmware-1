@@ -172,6 +172,24 @@ SG_ State : 0|8@1+ (1,0) [0|255] "" LOGGER
 BO_ 504 DIM_WATCHDOG_TIMEOUT: 8 DIM
 SG_ TASK_NAME : 0|64@1+ (1,0) [0|0] "" LOGGER
 
+BO_ 505 DIM_WHEEL_SPPED: 4 DIM
+SG_ WHEEL_SPEED : 0|32@1+ (1,0) [0|255] "km/hr" LOGGER
+
+BO_ 506 DIM_BATTERY_VOLTAGE: 4 DIM
+SG_ BATTERY_VOLTAGE : 0|32@1+ (1,0) [0|255] "V" LOGGER
+
+BO_ 507 DIM_TIRE_PRESSURE: 4 DIM
+SG_ TIRE_PRESSURE : 0|32@1+ (1,0) [0|255] "" LOGGER
+
+BO_ 998 FAULT_OUTPUTS: 1 LOGGER
+SG_ MotorShutdown : 0|1@1+ (1,0) [0|1] "" DIM
+SG_ BatteryShutdown : 1|1@1+ (1,0) [0|1] "" DIM
+
+BO_ 999 SIGNAL_INJECTION: 8 LOGGER
+SG_ Value : 0|32@1- (1,0) [-3.4E038|3.4E038] "" DIM
+SG_ Signal_ID : 32|16@1+ (1,0) [0|65535] "" DIM
+SG_ Enable_Override : 48|1@1+ (1,0) [0|0] "" DIM
+
 BA_DEF_  "BusType" STRING ;
 BA_DEF_ BO_  "GenMsgCycleTime" INT 0 65535;
 BA_DEF_ SG_  "GenSigStartValue" INT 0 2147483647;
@@ -210,6 +228,9 @@ BA_ "GenMsgCycleTime" BO_ 413 10;
 BA_ "GenMsgCycleTime" BO_ 500 300;
 BA_ "GenMsgCycleTime" BO_ 501 5000;
 BA_ "GenMsgCycleTime" BO_ 503 10;
+BA_ "GenMsgCycleTime" BO_ 505 100;
+BA_ "GenMsgCycleTime" BO_ 506 100;
+BA_ "GenMsgCycleTime" BO_ 507 100;
 
 BA_ "GenSigStartValue" SG_ 2  tx_overflow_count 0;
 BA_ "GenSigStartValue" SG_ 2  rx_overflow_count 0;

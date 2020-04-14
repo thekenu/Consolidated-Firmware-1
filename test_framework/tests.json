@@ -1,0 +1,18 @@
+{
+    "Tests":
+    [
+        {
+            "Start_Value": 10,
+            "End_Value": 30,
+            "Step_Value": 2,
+            "Threshold_Value": 15,
+            "Fault_CAN_Signal_Name": "MotorShutdown",
+            "Fault_Above_Threshold_(T/F)": true,
+            "Fault_Active_High_(T/F)": true,
+            "Test_Name": "Dummy_Name",
+            "Mock_Signal_Name": "WheelSpeed",
+            "Mock_CAN_Signal_Name": "SetWheelSpeed"
+        }
+    ]
+}
+
