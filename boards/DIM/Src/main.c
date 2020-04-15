@@ -424,9 +424,13 @@ void RunTask100Hz(void const *argument)
         Io_CanTx_EnqueuePeriodicMsgs(
             can_tx, osKernelSysTick() * portTICK_PERIOD_MS);
 
-        // SetTirePressure_setter.normal_setter(1.0f);
-        // SetBatteryVoltage_setter.normal_setter(2.0f);
+        SetTirePressure_setter.normal_setter(1.0f);
+        SetBatteryVoltage_setter.normal_setter(2.0f);
         SetWheelSpeed_setter.normal_setter(200.0f);
+
+        // SetTirePressure(1.0f);
+        // SetBatteryVoltage(2.0f);
+        // SetWheelSpeed(1.0f);
 
         osDelay(1);
     }

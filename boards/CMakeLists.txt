@@ -173,7 +173,6 @@ function(create_arm_binary
             ${FPU_FLAGS}
             -mthumb 
             -mthumb-interwork 
-            -ffunction-sections 
             -fdata-sections
             -g 
             -fno-common 
