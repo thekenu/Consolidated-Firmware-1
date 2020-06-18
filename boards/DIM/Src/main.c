@@ -175,6 +175,7 @@ int main(void)
     /* USER CODE END Init */
 
     /* Configure the system clock */
+    HAL_Init();
     SystemClock_Config();
 
     /* USER CODE BEGIN SysInit */
